@@ -1,0 +1,32 @@
+
+import requests
+from base64 import b64encode
+
+github_user = 'YOUR_GITHUB_USERNAME'
+github_repo = 'YOUR_GITHUB_REPOSITORY'
+folder_name = 'NEW_FOLDER_NAME'
+access_token = 'YOUR_GITHUB_ACCESS_TOKEN'
+
+# URL for create folder on GitHub
+url = f'https://api.github.com/repos/{github_user}/{github_repo}/contents/{folder_name}'
+
+# Encode token in base64
+token = b64encode(f'{github_user}:{access_token}'.encode()).decode('utf-8')
+
+# Headers for authorization
+headers = {
+    'Authorization': f'Basic {token}',
+    'Content-Type': 'application/json'
+}
+
+# Data for create folder
+data = {
+    'message': 'Create new folder',
+    'content': ''
+}
+
+# Send POST request for create folder
+response = requests.post(url=url, headers=headers, json=data)
+
+# Print response status code
+print(response.status_code)
